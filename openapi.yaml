@@ -1,0 +1,534 @@
+openapi: 3.0.0
+
+info:
+  title: タスク管理アプリAPI
+  description: |
+    タスク管理アプリ用のAPI定義
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Localサーバ
+
+paths:
+
+  /api/v1/signup:
+    post:
+      tags:
+        - authentication
+      summary: 新規登録
+      description: |
+        パラメータで送信されたユーザ名/パスワードで新規登録を行う
+      parameters:
+        - $ref: "#/components/parameters/X-OS-TYPE"
+        - $ref: "#/components/parameters/X-APP-TYPE"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthPostParameter"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "408":
+          $ref: "#/components/responses/RequestTimeoutError"
+        "500":
+          $ref: "#/components/responses/SystemError"
+
+  /api/v1/login:
+    post:
+      tags:
+        - authentication
+      summary: ログイン
+      description: |
+        パラメータで送信されたユーザ名/パスワードで認証を行う
+      parameters:
+        - $ref: "#/components/parameters/X-OS-TYPE"
+        - $ref: "#/components/parameters/X-APP-TYPE"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthPostParameter"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "408":
+          $ref: "#/components/responses/RequestTimeoutError"
+        "500":
+          $ref: "#/components/responses/SystemError"
+
+  /api/v1/token/refresh:
+    post:
+      tags:
+        - authentication
+      summary: トークンリフレッシュ
+      description: |
+        アクセストークンをリフレッシュする
+      parameters:
+        - $ref: "#/components/parameters/X-OS-TYPE"
+        - $ref: "#/components/parameters/X-APP-TYPE"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TokenRefreshPostParameter"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "408":
+          $ref: "#/components/responses/RequestTimeoutError"
+        "500":
+          $ref: "#/components/responses/SystemError"
+
+  /api/v1/logout:
+    post:
+      tags:
+        - authentication
+      summary: ログアウト
+      description: |
+        ログアウトを行う
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/X-OS-TYPE"
+        - $ref: "#/components/parameters/X-APP-TYPE"
+      responses:
+        "200":
+          description: OK
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "408":
+          $ref: "#/components/responses/RequestTimeoutError"
+        "500":
+          $ref: "#/components/responses/SystemError"
+
+  /api/v1/tasks:
+    get:
+      tags:
+        - task
+      summary: タスク一覧取得
+      description: |
+        登録済みのタスク一覧を取得する
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/X-OS-TYPE"
+        - $ref: "#/components/parameters/X-APP-TYPE"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tasks"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "408":
+          $ref: "#/components/responses/RequestTimeoutError"
+        "500":
+          $ref: "#/components/responses/SystemError"
+
+    post:
+      tags:
+        - task
+      summary: タスク作成
+      description: |
+        タスクを作成する
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/X-OS-TYPE"
+        - $ref: "#/components/parameters/X-APP-TYPE"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskPostAndPutParameter"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "408":
+          $ref: "#/components/responses/RequestTimeoutError"
+        "500":
+          $ref: "#/components/responses/SystemError"
+
+  /api/v1/tasks/{taskId}/done:
+    put:
+      tags:
+        - task
+      summary: 完了フラグ切り替え
+      description: |
+        タスクの完了フラグを切り替える
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/X-OS-TYPE"
+        - $ref: "#/components/parameters/X-APP-TYPE"
+        - $ref: "#/components/parameters/taskId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskDonePutParameter"
+      responses:
+        "200":
+          description: OK
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "408":
+          $ref: "#/components/responses/RequestTimeoutError"
+        "500":
+          $ref: "#/components/responses/SystemError"
+
+  /api/v1/tasks/{taskId}:
+    put:
+      tags:
+        - task
+      summary: タスク編集
+      description: |
+        タスクを編集する
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/X-OS-TYPE"
+        - $ref: "#/components/parameters/X-APP-TYPE"
+        - $ref: "#/components/parameters/taskId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskPostAndPutParameter"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "408":
+          $ref: "#/components/responses/RequestTimeoutError"
+        "500":
+          $ref: "#/components/responses/SystemError"
+
+    delete:
+      tags:
+        - task
+      summary: タスク削除
+      description: |
+        タスクを削除する
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/X-OS-TYPE"
+        - $ref: "#/components/parameters/X-APP-TYPE"
+        - $ref: "#/components/parameters/taskId"
+      responses:
+        "200":
+          description: OK
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "408":
+          $ref: "#/components/responses/RequestTimeoutError"
+        "500":
+          $ref: "#/components/responses/SystemError"
+
+components:
+  # 認証ヘッダ
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+
+  # 共通エラーレスポンス
+  responses:
+    BadRequestError:
+      description: リクエスト不正エラー
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    UnauthorizedError:
+      description: 認証エラー
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    NotFoundError:
+      description: NotFoundエラー
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    RequestTimeoutError:
+      description: TimeOutエラー
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+    SystemError:
+      description: システムエラー
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+  # リクエストパラメータ
+  parameters:
+    Authorization:
+      name: Authorization
+      in: header
+      required: true
+      description: アクセストークン
+      schema:
+        type: string
+
+    X-OS-TYPE:
+      name: X-OS-TYPE
+      in: header
+      schema:
+        type: string
+      required: true
+      description: |
+        端末種別(IOS / ANDROID)とOSバージョン
+          * 形式： 端末種別＋半角スペース＋OSバージョン
+          * 例： IOS 11.4.1
+
+    X-APP-TYPE:
+      name: X-APP-VERSION
+      in: header
+      schema:
+        type: string
+      required: true
+      description: |
+        アプリバージョン
+          * 例： 1.6.0
+
+    taskId:
+      name: taskId
+      in: path
+      required: true
+      description: タスクID
+      schema:
+        type: string
+
+  schemas:
+    Token:
+      description: アクセストークン
+      type: object
+      required:
+        - tokenType
+        - accessToken
+        - refreshToken
+        - expiresIn
+      properties:
+        tokenType:
+          type: string
+          description: トークンタイプ
+        accessToken:
+          type: string
+          description: アクセストークン
+        refreshToken:
+          type: string
+          description: リフレッシュトークン 
+        expiresIn:
+          type: integer
+          format: int64
+          description: 有効秒数
+
+    AuthPostParameter:
+      description: ユーザー認証リクエストモデル
+      type: object
+      required:
+        - userName
+        - password
+      properties:
+        userId:
+          type: string
+          description: ユーザ名
+        password:
+          type: string
+          description: パスワード
+          
+    TokenRefreshPostParameter:
+      description: トークンリフレッシュリクエストモデル
+      type: object
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
+          description: リフレッシュトークン 
+
+    Tasks:
+      description: タスク情報一覧
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: array
+          items:
+            $ref: "#/components/schemas/Task"
+
+    Task:
+      description: タスク情報
+      type: object
+      required:
+        - id
+        - name
+        - isDone
+        - expiresIn
+      properties:
+        id:
+          type: string
+          description: タスクID
+        name:
+          type: string
+          description: タスク名
+        isDone:
+          type: boolean
+          description: |
+            完了したかどうか
+        expiresIn:
+          type: string
+          format: date-time
+          description: |
+            有効期限
+            ISO 8601形式
+          example: "2020-01-01T00:00+09:00"
+
+    TaskPostAndPutParameter:
+      description: タスク登録リクエストモデル
+      type: object
+      required:
+        - name
+        - expiresIn
+      properties:
+        name:
+          type: string
+          description: タスク名
+        expiresIn:
+          type: string
+          description: 有効期限(yyyyMMdd)
+          
+    TaskDonePutParameter:
+      description: タスク完了フラグ切り替えリクエストモデル
+      type: object
+      required:
+        - isDone
+      properties:
+        isDone:
+          type: boolean
+          description: タスク完了フラグ
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: エラーコード
+        message:
+          type: string
+          description: エラーメッセージ
+        validationInfo:
+          type: array
+          description: バリデーション情報の配列
+          items:
+            $ref: "#/components/schemas/ValidationInfo"
+
+    ValidationInfo:
+      type: object
+      required:
+        - field
+        - rejectedValue
+        - message
+      properties:
+        field:
+          type: string
+          description: 対象のフィールド名
+        rejectedValue:
+          type: string
+          description: 不正な入力値
+        message:
+          type: string
+          description: バリデーションメッセージ
