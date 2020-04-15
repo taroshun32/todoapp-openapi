@@ -405,7 +405,7 @@ components:
           description: アクセストークン
         refreshToken:
           type: string
-          description: リフレッシュトークン 
+          description: リフレッシュトークン
         expiresIn:
           type: integer
           format: int64
@@ -424,7 +424,7 @@ components:
         password:
           type: string
           description: パスワード
-          
+
     TokenRefreshPostParameter:
       description: トークンリフレッシュリクエストモデル
       type: object
@@ -433,7 +433,7 @@ components:
       properties:
         refreshToken:
           type: string
-          description: リフレッシュトークン 
+          description: リフレッシュトークン
 
     Tasks:
       description: タスク情報一覧
@@ -486,7 +486,7 @@ components:
         expiresIn:
           type: string
           description: 有効期限(yyyyMMdd)
-          
+
     TaskDonePutParameter:
       description: タスク完了フラグ切り替えリクエストモデル
       type: object
