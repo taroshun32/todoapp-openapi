@@ -1,0 +1,6 @@
+{
+  "tokenType" : "string",
+  "accessToken" : "string",
+  "refreshToken" : "string",
+  "expiresIn" : 0
+}
