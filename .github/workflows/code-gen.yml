@@ -17,6 +17,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Checkout submodules
+        uses: actions/checkout@v2
+        with:
+          repository: taroshun32/openapi-generator
+          path: openapi-generator
+          ssh-key: ${{ secrets.DEPLOY_KEY_OPENAPI_GENERATOR }}
+
+      - name: sync submodule
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --force --recursive
+
       - name: Set up JDK 8
         uses: actions/setup-java@v1
         with:
@@ -24,4 +36,7 @@ jobs:
 
       - name: generate
         run: |
+          sh ./.github/actions/code-gen/entrypoint.sh
           sh ./.github/actions/mock-json-gen/entrypoint.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
