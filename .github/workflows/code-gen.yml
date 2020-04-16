@@ -38,3 +38,5 @@ jobs:
         run: |
           sh ./.github/actions/code-gen/entrypoint.sh
           sh ./.github/actions/mock-json-gen/entrypoint.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
