@@ -28,6 +28,7 @@ rm -rf kotlin-spring/docs \
   kotlin-spring/settings.gradle \
   kotlin-spring/src/main/resources \
   kotlin-spring/src/main/kotlin/org/openapitools/Application.kt \
+  kotlin-spring/src/main/kotlin/org/openapitools/spring/apis \
   kotlin-spring/src/test
 ## generate kotlin-client
 java -jar ${JAR_PATH} generate -i openapi.yaml -g kotlin -o kotlin-client -p parcelizeModels=true,serializationLibrary=moshi,moshiCodeGen=true,collectionType=list,enumPropertyNaming=UPPERCASE,sortParamsByRequiredFlag=true,sortModelPropertiesByRequiredFlag=true,dateLibrary=threetenbp,requestDateConverter=toJson,useRxJava2=false --library jvm-retrofit2
