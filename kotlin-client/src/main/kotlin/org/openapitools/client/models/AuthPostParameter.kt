@@ -19,17 +19,17 @@ import kotlinx.android.parcel.Parcelize
 
 /**
  * ユーザー認証リクエストモデル
+ * @param userName ユーザ名
  * @param password パスワード
- * @param userId ユーザ名
  */
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class AuthPostParameter (
+    /* ユーザ名 */
+    @Json(name = "userName")
+    val userName: kotlin.String,
     /* パスワード */
     @Json(name = "password")
-    val password: kotlin.String,
-    /* ユーザ名 */
-    @Json(name = "userId")
-    val userId: kotlin.String? = null
+    val password: kotlin.String
 ) : Parcelable
 

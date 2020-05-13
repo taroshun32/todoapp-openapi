@@ -12,15 +12,16 @@ import javax.validation.constraints.Size
 
 /**
  * ユーザー認証リクエストモデル
+ * @param userName ユーザ名
  * @param password パスワード
- * @param userId ユーザ名
  */
 data class AuthPostParameter(
 
     @get:NotNull 
-    @JsonProperty("password") val password: kotlin.String,
+    @JsonProperty("userName") val userName: kotlin.String,
 
-    @JsonProperty("userId") val userId: kotlin.String? = null
+    @get:NotNull 
+    @JsonProperty("password") val password: kotlin.String
 ) {
 
 }
