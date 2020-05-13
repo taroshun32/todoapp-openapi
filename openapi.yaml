@@ -418,7 +418,7 @@ components:
         - userName
         - password
       properties:
-        userId:
+        userName:
           type: string
           description: ユーザ名
         password:

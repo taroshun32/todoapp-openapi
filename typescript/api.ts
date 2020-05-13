@@ -30,7 +30,7 @@ export interface AuthPostParameter {
      * @type {string}
      * @memberof AuthPostParameter
      */
-    userId?: string;
+    userName: string;
     /**
      * パスワード
      * @type {string}
