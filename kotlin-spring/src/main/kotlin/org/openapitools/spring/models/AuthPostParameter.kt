@@ -2,6 +2,7 @@ package org.openapitools.spring.models
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonCreator
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Max
@@ -15,7 +16,7 @@ import javax.validation.constraints.Size
  * @param userName ユーザ名
  * @param password パスワード
  */
-data class AuthPostParameter(
+data class AuthPostParameter @JsonCreator constructor (
 
     @get:NotNull 
     @JsonProperty("userName") val userName: kotlin.String,
