@@ -3,6 +3,7 @@ package org.openapitools.spring.models
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.openapitools.spring.models.ValidationInfo
+import com.fasterxml.jackson.annotation.JsonCreator
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Max
@@ -17,7 +18,7 @@ import javax.validation.constraints.Size
  * @param message エラーメッセージ
  * @param validationInfo バリデーション情報の配列
  */
-data class Error(
+data class Error @JsonCreator constructor (
 
     @get:NotNull 
     @JsonProperty("code") val code: kotlin.Int,

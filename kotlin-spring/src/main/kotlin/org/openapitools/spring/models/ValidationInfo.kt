@@ -2,6 +2,7 @@ package org.openapitools.spring.models
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonCreator
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Max
@@ -16,7 +17,7 @@ import javax.validation.constraints.Size
  * @param rejectedValue 不正な入力値
  * @param message バリデーションメッセージ
  */
-data class ValidationInfo(
+data class ValidationInfo @JsonCreator constructor (
 
     @get:NotNull 
     @JsonProperty("field") val field: kotlin.String,

@@ -2,6 +2,7 @@ package org.openapitools.spring.models
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonCreator
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Max
@@ -17,7 +18,7 @@ import javax.validation.constraints.Size
  * @param isDone 完了したかどうか 
  * @param expiresIn 有効期限 ISO 8601形式 
  */
-data class Task(
+data class Task @JsonCreator constructor (
 
     @get:NotNull 
     @JsonProperty("id") val id: kotlin.String,
