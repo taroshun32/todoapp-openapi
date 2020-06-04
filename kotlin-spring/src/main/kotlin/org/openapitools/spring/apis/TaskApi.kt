@@ -72,7 +72,7 @@ abstract class TaskApiBaseController() {
 , @RequestHeader(value="X-OS-TYPE", required=true) xminusOSMinusTYPE: kotlin.String
 , @RequestHeader(value="X-APP-VERSION", required=true) xminusAPPMinusVERSION: kotlin.String
 , @PathVariable("taskId") taskId: kotlin.String
-): Unit
+): HttpStatus
     /** 実装クラスに持っていく
 
     @RequestMapping(
@@ -87,7 +87,7 @@ abstract class TaskApiBaseController() {
 , @RequestHeader(value="X-APP-VERSION", required=true) xminusAPPMinusVERSION: kotlin.String
 , @PathVariable("taskId") taskId: kotlin.String
 , @Valid @RequestBody taskDonePutParameter: TaskDonePutParameter?
-): Unit
+): HttpStatus
     /** 実装クラスに持っていく
 
     @RequestMapping(
