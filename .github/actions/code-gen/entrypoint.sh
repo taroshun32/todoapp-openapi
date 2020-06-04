@@ -19,7 +19,7 @@ export JAR_PATH=./openapi-generator/code-gen/openapi-generator-cli.jar
 ## validation
 java -jar ${JAR_PATH} validate -i openapi.yaml
 ## remove old generated code
-rm -rf kotlin-client kotlin-spring typescript
+rm -rf kotlin-spring
 ## generate kotlin-spring
 java -jar ${JAR_PATH} generate -i openapi.yaml -g kotlin-spring -o kotlin-spring --enable-post-process-file  -p useBeanValidation=true,serializationLibrary=moshi,moshiCodeGen=true,enumPropertyNaming=UPPERCASE,sortParamsByRequiredFlag=true,sortModelPropertiesByRequiredFlag=true,dateLibrary=java8,requestDateConverter=toJson,packageName=org.openapitools.spring
 rm -rf kotlin-spring/docs \
@@ -30,11 +30,6 @@ rm -rf kotlin-spring/docs \
   kotlin-spring/src/main/kotlin/org/openapitools/Application.kt \
   kotlin-spring/src/main/kotlin/org/openapitools/spring/apis/ApiUtil.kt \
   kotlin-spring/src/test
-## generate kotlin-client
-java -jar ${JAR_PATH} generate -i openapi.yaml -g kotlin -o kotlin-client -p parcelizeModels=true,serializationLibrary=moshi,moshiCodeGen=true,collectionType=list,enumPropertyNaming=UPPERCASE,sortParamsByRequiredFlag=true,sortModelPropertiesByRequiredFlag=true,dateLibrary=threetenbp,requestDateConverter=toJson,useRxJava2=false --library jvm-retrofit2
-rm -rf kotlin-client/docs
-## generate typescript
-java -jar ${JAR_PATH} generate -i openapi.yaml -g typescript-axios -o typescript
 ## remove all README.md
 find kotlin-client kotlin-spring typescript -name "README.md" | xargs rm
 
