@@ -57,7 +57,7 @@ abstract class AuthenticationApiBaseController() {
     abstract fun apiV1LogoutPost( @RequestHeader(value="Authorization", required=true) authorization: kotlin.String
 , @RequestHeader(value="X-OS-TYPE", required=true) xminusOSMinusTYPE: kotlin.String
 , @RequestHeader(value="X-APP-VERSION", required=true) xminusAPPMinusVERSION: kotlin.String
-): Unit
+): HttpStatus
     /** 実装クラスに持っていく
 
     @RequestMapping(
